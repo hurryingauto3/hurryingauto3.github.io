@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown to End of Sadness</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+            background-image: url('imran.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5rem; /* Increase the font size */
+            margin-bottom: 1rem;
+        }
+
+        .flip-clock {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .flip-clock__piece {
+            margin: 0 1rem; /* Increase the margin */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .flip-clock__time {
+            font-size: 5rem; /* Increase the font size */
+            background-color:   #000000;
+            color: #ffffff;
+            padding: 3rem 3rem; /* Increase the padding */
+            border-radius: 2rem; /* Increase the border radius */
+            font-weight: 400;
+        }
+
+        .flip-clock__label {
+            font-size: 2rem; /* Increase the font size */
+            margin-top: 0.5rem; /* Increase the margin */
+            font-weight: 400;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: #000000;">Countdown to End of Sadness</h1>
+        <div class="flip-clock" id="flip-clock">
+            <div class="flip-clock__piece">
+                <span class="flip-clock__time" id="days"></span>
+                <div class="flip-clock__label">Days</div>
+            </div>
+            <div class="flip-clock__piece">
+                <span class="flip-clock__time" id="hours"></span>
+                <div class="flip-clock__label">Hours</div>
+            </div>
+            <div class="flip-clock__piece">
+                <span class="flip-clock__time" id="minutes"></span>
+                <div class="flip-clock__label">Minutes</div>
+            </div>
+            <div class="flip-clock__piece">
+                <span class="flip-clock__time" id="seconds"></span>
+                <div class="flip-clock__label">Seconds</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function getTimeRemaining(endtime) {
+            const total = Date.parse(endtime) - Date.parse(new Date());
+            const seconds = Math.floor((total / 1000) % 60);
+            const minutes = Math.floor((total / 1000 / 60) % 60);
+            const hours = Math.floor((total / (1000 * 60 * 60)) % 24);
+            const days = Math.floor(total / (1000 * 60 * 60 * 24));
+
+            return {
+                total,
+                days,
+                hours,
+                minutes,
+                seconds
+            };
+        }
+
+        function initializeClock(id, endtime) {
+            const clock = document.getElementById(id);
+            const daysSpan = clock.querySelector('#days');
+            const hoursSpan = clock.querySelector('#hours');
+            const minutesSpan = clock.querySelector('#minutes');
+            const secondsSpan = clock.querySelector('#seconds');
+
+            function updateClock() {
+                const t = getTimeRemaining(endtime);
+
+                daysSpan.innerHTML = ('0' + t.days).slice(-2);
+                hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
+                minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+                secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
+
+                if (t.total <= 0) {
+                    clearInterval(timeinterval);
+                }
+            }
+
+            updateClock();
+            const timeinterval = setInterval(updateClock, 1000);
+        }
+
+        const deadline = new Date('April 25, 2023 12:00:00 GMT+00:00');
+        initializeClock('flip-clock', deadline);
+    </script>
+</body>
+</html>
